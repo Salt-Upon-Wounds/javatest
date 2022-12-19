@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.check.Check;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.example.demo.models.*;
@@ -16,11 +17,22 @@ public class DemoApplication implements ApplicationRunner {
     @Override
     public void run( ApplicationArguments args ) throws Exception
     {
-        //System.out.println( "Name: " + name );
+        char[] arr = new char[3];
 
-        int i = 0;
-        for (String str : args.getSourceArgs()) {
-            System.out.format( "Arg %d: %s%n", i, str );
+        if (args.containsOption("read")) {
+            //первый символ первого значения опции
+            arr[0] = args.getOptionValues("read").get(0).charAt(0);
         }
+
+        if (args.containsOption("write")) {
+            arr[1] = args.getOptionValues("write").get(0).charAt(0);
+        }
+
+        if (args.containsOption("src")) {
+            arr[2] = args.getOptionValues("src").get(0).charAt(0);
+        }
+
+        Check check = new Check(arr[2], arr[0], arr[1]);
+        check.makeCheck(args);
     }
 }

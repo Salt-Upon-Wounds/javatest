@@ -7,7 +7,7 @@ import org.springframework.boot.ApplicationArguments;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Check implements ICheck {
+public class Check implements ICheck {
     protected DiscountCard card = null;
     protected ISource src;
     protected IReadStrategy reader;
@@ -17,15 +17,18 @@ public abstract class Check implements ICheck {
         this.reader = reader;
         this.writer = writer;
     }
-    public Check(String src, String reader, String writer) {
-        if (src.equals("h")) {
-            this.src = new HardCodedSource();
+    public Check(char src, char reader, char writer) {
+        switch (src) {
+            //case "h": this.src = new HardCodedSource(); break;
+            default: this.src = new HardCodedSource(); break;
         }
-        if (reader.equals("c")) {
-            this.reader = new CheckConsoleReadStrategy();
+        switch (src) {
+            //case "c": this.reader = new CheckConsoleReadStrategy(); break;
+            default: this.reader = new CheckConsoleReadStrategy(); break;
         }
-        if (writer.equals("c")) {
-            this.writer = new CheckConsoleWriteStrategy();
+        switch (src) {
+            //case "c": new CheckConsoleWriteStrategy(); break;
+            default: this.writer = new CheckConsoleWriteStrategy(); break;
         }
     }
     public void makeCheck(ApplicationArguments args) {
@@ -43,6 +46,8 @@ public abstract class Check implements ICheck {
                 check += arg.val + " " + p.getName() + " " + p.getCost() + " " + res + "$\n";
             }
         }
+        if (card != null) total *= 0.01 * (100 - card.getDiscount());
+        check += "card: " + card.getName() + " " + card.getDiscount() + "%\n";
         check += "total: " + total +  "$";
         writer.writeData(check);
     }
