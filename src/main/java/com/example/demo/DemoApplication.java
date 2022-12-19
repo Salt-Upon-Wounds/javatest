@@ -17,12 +17,7 @@ public class DemoApplication implements ApplicationRunner {
     public void run( ApplicationArguments args ) throws Exception
     {
         //System.out.println( "Name: " + name );
-        Product[] Products = {
-                new Product(0, 1.2F, "cup"),
-                new Product(1, 5.2F, "apple"),
-                new Product(2, 10F, "milk"),
-                new Product(3, 3.67F, "bread"),
-        };
+
         int i = 0;
         for (String str : args.getSourceArgs()) {
             System.out.format( "Arg %d: %s%n", i, str );
